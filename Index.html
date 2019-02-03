@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Memory</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <style>
+      * {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-family: 'Open Sans', sans-serif;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        font-size: 7vh;
+        user-select: none;
+        color: white;
+        outline: none;
+        border: none;
+        justify-content: center;
+        align-items: center;
+      }
+      body {
+        background-color: #FF1744;
+      }
+      #hud {
+        display: flex;
+        height: 90vh;
+      }
+      #input {
+        background-color: transparent;
+        display: none;
+      }
+      #play:hover {
+        opacity: 0.5;
+        cursor: pointer;
+        transition: opacity 0.5s;
+      }
+      #victory {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="hud">
+      <p id="play" onclick="play()">Play</p>
+
+      <div>
+        <p id="number"></p>
+
+        <p id="name"></p>
+
+        <input id="input" maxlength="24" onkeyup="check()" type="text"></input>
+      </div>
+
+      <p id="victory">You won</p>
+    </div>
+
+    <script>
+      var a = ["friend", "rob", "nail", "award", "remain", "slide", "executive"];
+      var s = 7;
+      var n = 0;
+      var g = 0;
+      function play() {
+        document.getElementById("play").style.display = "none";
+        simon();
+      }
+      function simon() {
+        document.getElementById("name").innerHTML = a[n];
+        document.getElementById("number").innerHTML = n + 1;
+        if(s === n) {
+          n = 0;
+          test();
+        } else {
+          n++;
+          setTimeout(simon,1000);
+        }
+      }
+      function test() {
+        document.getElementById("number").innerHTML = g + 1;
+        document.getElementById("name").style.display = "none";
+        document.getElementById("input").value = "";
+        document.getElementById("input").style.display = "inherit";
+        document.getElementById("input").focus();
+      }
+      function check() {
+        var ans = a[g].toLowerCase();
+        var usr = document.getElementById("input").value;
+        usr = usr.toLowerCase();
+        if(ans === usr) {
+          if(s === g + 1) {
+            if(s === a.length) {
+              document.getElementById("number").style.display = "none";
+              document.getElementById("name").style.display = "none";
+              document.getElementById("input").style.display = "none";
+              document.getElementById("victory").style.display = "inherit";
+            } else {
+            s++;
+            document.getElementById("input").style.display = "none";
+            document.getElementById("name").style.display = "inherit";
+            g = 0;
+            simon();
+            return;
+            }
+          } else {
+            g++;
+            test();
+            return;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
